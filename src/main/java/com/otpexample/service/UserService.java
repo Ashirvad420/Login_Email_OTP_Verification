@@ -12,10 +12,20 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
     public User registerUser(User user)
     {
         // Save the User to the database
         return userRepository.save(user); // it will take the user details and save the user
+    }
+
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user;
+    }
+
+    public void verifyEmail(User user) {
+
+        user.setEmailVerified(String.valueOf(true));
+        userRepository.save(user);
     }
 }

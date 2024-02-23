@@ -2,13 +2,12 @@ package com.otpexample.controller;
 
 import com.otpexample.entity.User;
 import com.otpexample.service.EmailService;
+import com.otpexample.service.EmailVerificationService;
 import com.otpexample.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -21,6 +20,9 @@ public class RegistrationController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private EmailVerificationService emailVerificationService;
+
     @PostMapping("/register")
     public Map<String, String> registerUser(@RequestBody User user)
     {
@@ -29,7 +31,22 @@ public class RegistrationController {
 
         // send OTP email for verification
         emailService.sendOtpEmail(user.getEmail());
-        return null;
+
+
+        // create a HashMap to send response back of email day:-2024-02-20
+
+        Map<String,String> response = new HashMap<>(); // content can be store in hashmap as a key value pair
+        response.put("status","success");
+        response.put("message","User registration successfully.Check your email for verification");
+        return response;
+
+//        return null;
+    }
+
+    @PostMapping("/verify-otp")
+    public Map<String,String> verifyOtp(@RequestParam String email, @RequestBody String otp)
+    {
+        return emailVerificationService.verifyOtp(email,otp);
     }
 }
 
