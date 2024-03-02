@@ -38,7 +38,7 @@ public class EmailService {
         emailOtpMapping.put(email, otp);
 
         //send otp to the user's email
-        sendEmail(email,"OTP for Verification","Your OTP is"+ otp);
+        sendEmail(email,"OTP for Verification","Your OTP IS : "+ otp);
     }
 
     private void sendEmail(String to, String subject,String text)

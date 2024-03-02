@@ -25,7 +25,14 @@ public class UserService {
 
     public void verifyEmail(User user) {
 
-        user.setEmailVerified(String.valueOf(true));
+        user.setEmailVerified(true);
         userRepository.save(user);
+    }
+
+    // Login OTP Date:- 2024-2-21
+    public boolean isEmailVerified(String email) {
+
+        User user = userRepository.findByEmail(email);
+        return user!=null && user.isEmailVerified();
     }
 }
